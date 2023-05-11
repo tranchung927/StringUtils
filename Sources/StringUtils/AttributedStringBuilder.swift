@@ -7,6 +7,10 @@
 
 import UIKit
 
+public extension NSAttributedString.Key {
+    static let imageHeight = NSAttributedString.Key("str_utils_image_height_key")
+}
+
 public final class AttributedStringBuilder {
     
     private var listAttString: [(data: Any?, attrs: [NSAttributedString.Key : Any])] = []
@@ -22,10 +26,16 @@ public final class AttributedStringBuilder {
     }
     
     @discardableResult
-    public func append(_ image: UIImage?) -> AttributedStringBuilder {
+    public func append(_ image: UIImage?, height: CGFloat) -> AttributedStringBuilder {
         lastStartAttIndex = listAttString.count
-        listAttString.append((image, [:]))
+        listAttString.append((image, [NSAttributedString.Key.imageHeight: height]))
         return self
+    }
+    
+    @discardableResult
+    /// Default Image Height 20
+    public func append(_ image: UIImage?) -> AttributedStringBuilder {
+        return append(image, height: 20.0)
     }
     
     @discardableResult
@@ -106,7 +116,7 @@ public final class AttributedStringBuilder {
                 imageAttachment.image = image
                 let ratio: CGFloat = image.size.width / image.size.height
                 let attachmentBounds = imageAttachment.bounds
-                let heightRatio: CGFloat = 20
+                let heightRatio = (attString.attrs[NSAttributedString.Key.imageHeight] as? CGFloat) ?? 20.0
                 imageAttachment.bounds = CGRect(x: attachmentBounds.origin.x,
                                                 y: -5,
                                                 width: ratio * heightRatio,
