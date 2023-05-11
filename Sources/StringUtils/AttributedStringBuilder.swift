@@ -118,7 +118,7 @@ public final class AttributedStringBuilder {
                 let attachmentBounds = imageAttachment.bounds
                 let heightRatio = (attString.attrs[NSAttributedString.Key.imageHeight] as? CGFloat) ?? 20.0
                 imageAttachment.bounds = CGRect(x: attachmentBounds.origin.x,
-                                                y: -5,
+                                                y: 0,
                                                 width: ratio * heightRatio,
                                                 height: heightRatio)
                 result.append(NSAttributedString(attachment: imageAttachment))
